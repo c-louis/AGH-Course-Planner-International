@@ -185,7 +185,7 @@ export default {
       return hours;
     },
     async getModalContent(id) {
-      var response = await axios.get('https://sylabusy.agh.edu.pl/en/document/' + id + '.jsonHtml');
+      var response = await axios.get('https://agh.cl-dev.ovh/api.php?id=' + id);
       if (response.status != 200) {
         return '';
       }
