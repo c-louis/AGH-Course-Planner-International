@@ -12,8 +12,6 @@ class Examination(Enum):
 	EXAM = 0
 	ASSESSMENT = 1
 
-
-
 class Course:
 	def __init__(self, tr):
 		cases = tr.find_all('td')
@@ -49,7 +47,7 @@ class Course:
 
 # Winter : syl-grid-group syl-group-57571-element
 # Summer : syl-grid-group syl-group-55100-element
-def getCourses():
+def getCourses(syllabus_page):
 	response = requests.get('https://sylabusy.agh.edu.pl/en/2/2/17/1/9/55/137')
 	if response.status_code != 200:
 		print(f"Can't get page data, got : {response.status_code}")
@@ -69,7 +67,10 @@ def getCourses():
 	return winterAvailableCourses, summerAvailableCourses
 
 def main():
-	winters, summers = getCourses()
+	if len(sys.argv) < 2:
+		print(f"Missing an argument : Agh Syllabus Url")
+		sys.exit()
+	winters, summers = getCourses(sys.argv[1])
 
 	with open('winter_courses.csv', 'w', newline='') as csvfile:
 		winterWriter = csv.writer(csvfile)
